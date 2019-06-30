@@ -14,4 +14,10 @@ data class World(
 
         return copy(opponentPaddle = opponentPaddle.move(direction))
     }
+
+    fun moveBall(): World {
+        val newBall = ball.move()
+
+        return copy(ball = newBall)
+    }
 }

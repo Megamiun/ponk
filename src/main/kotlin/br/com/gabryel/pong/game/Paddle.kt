@@ -5,8 +5,6 @@ import br.com.gabryel.pong.game.Direction.UP
 
 data class Paddle(val width: Float, val height: Float, val center: Vector, val speed: Float) {
 
-    val halfWidth = width / 2
-
     val halfHeight = height / 2
 
     fun move(direction: Direction): Paddle {

@@ -1,21 +1,25 @@
 package br.com.gabryel.pong.game
 
+import br.com.gabryel.pong.game.Direction.*
+
 interface Strategy {
     fun act(world: World): Direction
 }
 
 class WaitingStrategy: Strategy {
-    override fun act(world: World) = Direction.NONE
+    override fun act(world: World) = NONE
 }
 
 class BallChasingStrategy: Strategy {
     override fun act(world: World): Direction {
-        return if (world.opponentPaddle.center.y < world.ball.position.y) {
-            Direction.DOWN
-        } else if (world.opponentPaddle.center.y > world.ball.position.y) {
-            Direction.UP
-        } else {
-            Direction.NONE
+        val ball = world.ball.position.y
+        val paddleY = world.opponentPaddle.center.y
+        val halfHeight = world.opponentPaddle.halfHeight
+
+        return when {
+            paddleY - halfHeight > ball -> UP
+            paddleY + halfHeight < ball -> DOWN
+            else -> NONE
         }
     }
 }
