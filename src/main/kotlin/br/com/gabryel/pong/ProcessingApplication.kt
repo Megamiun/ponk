@@ -5,6 +5,7 @@ import br.com.gabryel.pong.game.BallChasingStrategy
 import br.com.gabryel.pong.game.Direction
 import br.com.gabryel.pong.game.Direction.NONE
 import br.com.gabryel.pong.game.Paddle
+import br.com.gabryel.pong.game.Positioned
 import br.com.gabryel.pong.game.Strategy
 import br.com.gabryel.pong.game.Vector
 import br.com.gabryel.pong.game.World
@@ -68,17 +69,12 @@ class Pong(private var currentWorld: World): PApplet() {
         opponentPaddle.render()
     }
 
-    private fun Ball.render() {
-        ellipse(
-            position.x * scaleFloat,
-            position.y * scaleFloat,
-            diameter * scaleFloat,
-            diameter * scaleFloat
-        )
-    }
+    private fun Ball.render() = render(::ellipse)
 
-    private fun Paddle.render() {
-        rect(center.x * scaleFloat, center.y * scaleFloat, width * scaleFloat, height * scaleFloat)
+    private fun Paddle.render() = render(::rect)
+
+    private fun Positioned.render(render: (Float, Float, Float, Float) -> Any) {
+        render(position.x * scaleFloat, position.y * scaleFloat, width * scaleFloat, height * scaleFloat)
     }
 }
 
@@ -95,8 +91,8 @@ fun initialize(
     opponentStrategy: Strategy
 ): World {
     val playerPaddle = Paddle(paddleWidth, paddleHeight, Vector(1 - paddleWidth / 2, 0.5F), paddleSpeed)
-    val opponentPaddle = playerPaddle.copy(center = (paddleWidth / 2) by 0.5)
-    val ball = Ball(0.5 by 0.5, 0.005 by 0.005, 0.02F)
+    val opponentPaddle = playerPaddle.copy(position = (paddleWidth / 2) by 0.5)
+    val ball = Ball(0.5 by 0.5, 0.005 by 0.01, 0.02F)
 
     return World(ball, playerPaddle, opponentPaddle, opponentStrategy)
 }

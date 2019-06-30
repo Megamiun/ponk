@@ -13,7 +13,7 @@ class WaitingStrategy: Strategy {
 class BallChasingStrategy: Strategy {
     override fun act(world: World): Direction {
         val ball = world.ball.position.y
-        val paddleY = world.opponentPaddle.center.y
+        val paddleY = world.opponentPaddle.position.y
         val halfHeight = world.opponentPaddle.halfHeight
 
         return when {
